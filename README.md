@@ -6,7 +6,7 @@ test results
 ```
 PASS
 coverage: 85.2% of statements
-ok  	go_third_party/app/lib/ratelimitx	1.811s
+ok  	ratelimitx	1.811s
 Success: Tests passed.
 ```
 
@@ -16,7 +16,7 @@ benchmark results
 $ go test -bench=.
 goos: windows
 goarch: amd64
-pkg: go_third_party/app/lib/ratelimitx
+pkg: ratelimitx
 BenchmarkAllowSecond-4                                      5000            253200 ns/op
 BenchmarkAllowMinute-4                                      5000            237330 ns/op
 BenchmarkAllowHour-4                                       10000            247800 ns/op
