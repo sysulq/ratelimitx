@@ -11,7 +11,7 @@ import (
 
 // case：达到预定阀值时，allow应返回false
 func TestAllow(t *testing.T) {
-	l := New("localhost:32768")
+	l := New("localhost:11211")
 	l.Reset("test_id", time.Minute)
 
 	rate, delay, allow := l.Allow("test_id", 1, time.Minute)
@@ -26,7 +26,7 @@ func TestAllow(t *testing.T) {
 
 // case：先达到预定阀值，然后等待过期，此时再次请求应顺利通过
 func TestExpire(t *testing.T) {
-	l := New("localhost:32768")
+	l := New("localhost:11211")
 	l.Reset("test_id", time.Second)
 
 	rate, delay, allow := l.Allow("test_id", 1, time.Second)
@@ -48,7 +48,7 @@ func TestExpire(t *testing.T) {
 
 // case：测试AllowMinute
 func TestAllowMinute(t *testing.T) {
-	l := New("localhost:32768")
+	l := New("localhost:11211")
 	l.Reset("test_id", time.Minute)
 
 	rate, delay, allow := l.AllowMinute("test_id", 1)
@@ -63,7 +63,7 @@ func TestAllowMinute(t *testing.T) {
 
 // case：测试AllowHour
 func TestAllowHour(t *testing.T) {
-	l := New("localhost:32768")
+	l := New("localhost:11211")
 	l.Reset("test_id", time.Hour)
 
 	rate, delay, allow := l.AllowHour("test_id", 1)
@@ -78,7 +78,7 @@ func TestAllowHour(t *testing.T) {
 
 // case：测试AllowRate
 func TestAllowRate(t *testing.T) {
-	l := New("localhost:32768")
+	l := New("localhost:11211")
 	l.ResetRate("test_id", rate.Every(time.Second))
 
 	delay, allow := l.AllowRate("test_id", rate.Every(time.Second))
@@ -130,7 +130,7 @@ func TestMemcacheUnavailableWithFallback(t *testing.T) {
 
 // benchmark AllowSecond
 func BenchmarkAllowSecond(b *testing.B) {
-	l := New("localhost:32768")
+	l := New("localhost:11211")
 	l.Reset("test_id", time.Second)
 	b.ResetTimer()
 
@@ -141,7 +141,7 @@ func BenchmarkAllowSecond(b *testing.B) {
 
 // benchmark AllowMinute
 func BenchmarkAllowMinute(b *testing.B) {
-	l := New("localhost:32768")
+	l := New("localhost:11211")
 	l.Reset("test_id", time.Minute)
 	b.ResetTimer()
 
@@ -152,7 +152,7 @@ func BenchmarkAllowMinute(b *testing.B) {
 
 // benchmark AllowHour
 func BenchmarkAllowHour(b *testing.B) {
-	l := New("localhost:32768")
+	l := New("localhost:11211")
 	l.Reset("test_id", time.Hour)
 	b.ResetTimer()
 
@@ -163,7 +163,7 @@ func BenchmarkAllowHour(b *testing.B) {
 
 // benchmark memcache unavailable with fallback
 func BenchmarkMemcacheUnavailableWithFallback(b *testing.B) {
-	l := New("localhost")
+	l := New("localhost:11211")
 	l.Reset("test_id", time.Hour)
 	l.Fallback = rate.NewLimiter(rate.Every(time.Second), 1)
 	b.ResetTimer()
@@ -175,7 +175,7 @@ func BenchmarkMemcacheUnavailableWithFallback(b *testing.B) {
 
 // benchmark memcache unavailable without fallback
 func BenchmarkMemcacheUnavailableWithoutFallback(b *testing.B) {
-	l := New("localhost")
+	l := New("localhost:11211")
 	l.Reset("test_id", time.Hour)
 	b.ResetTimer()
 
