@@ -96,7 +96,7 @@ func TestMemcacheUnavailable(t *testing.T) {
 	l.Reset("test_id", time.Second)
 
 	count, delay, allow := l.Allow("test_id", 1, time.Second)
-	assert.False(t, allow)
+	assert.True(t, allow)
 	assert.Equal(t, uint64(1), count)
 	assert.Condition(t, func() bool { return delay <= time.Second })
 
