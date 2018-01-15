@@ -95,14 +95,14 @@ func TestMemcacheUnavailable(t *testing.T) {
 	l := New("localhost:11211")
 	l.Reset("test_id", time.Second)
 
-	count, delay, allow := l.Allow("TestMemcacheUnavailable", 1, time.Second)
+	count, delay, allow := l.Allow("test_id", 1, time.Second)
 	assert.False(t, allow)
-	assert.Equal(t, uint64(0), count)
+	assert.Equal(t, uint64(1), count)
 	assert.Condition(t, func() bool { return delay <= time.Second })
 
-	count, delay, allow = l.Allow("TestMemcacheUnavailable", 1, time.Second)
+	count, delay, allow = l.Allow("test_id", 1, time.Second)
 	assert.False(t, allow)
-	assert.Equal(t, uint64(0), count)
+	assert.Equal(t, uint64(2), count)
 	assert.Condition(t, func() bool { return delay <= time.Second })
 }
 
@@ -112,19 +112,19 @@ func TestMemcacheUnavailableWithFallback(t *testing.T) {
 	l.Reset("test_id", time.Second)
 	l.Fallback = rate.NewLimiter(rate.Every(time.Second), 1)
 
-	count, delay, allow := l.Allow("TestMemcacheUnavailableWithFallback", 1, time.Second)
+	count, delay, allow := l.Allow("test_id", 1, time.Second)
 	assert.True(t, allow)
 	assert.Equal(t, uint64(1), count)
 	assert.Condition(t, func() bool { return delay <= time.Second })
 
-	count, delay, allow = l.Allow("TestMemcacheUnavailableWithFallback", 1, time.Second)
+	count, delay, allow = l.Allow("test_id", 1, time.Second)
 	assert.False(t, allow)
-	assert.Equal(t, uint64(1), count)
+	assert.Equal(t, uint64(2), count)
 	assert.Condition(t, func() bool { return delay <= time.Second })
 
-	count, delay, allow = l.Allow("TestMemcacheUnavailableWithFallback", 1, time.Second)
+	count, delay, allow = l.Allow("test_id", 1, time.Second)
 	assert.False(t, allow)
-	assert.Equal(t, uint64(1), count)
+	assert.Equal(t, uint64(3), count)
 	assert.Condition(t, func() bool { return delay <= time.Second })
 }
 
