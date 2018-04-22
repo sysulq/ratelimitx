@@ -1,5 +1,6 @@
 # ratelimitx
 [![Build Status](https://travis-ci.org/hnlq715/ratelimitx.svg?branch=master)](https://travis-ci.org/hnlq715/ratelimitx)
+[![Coverage](https://codecov.io/gh/hnlq715/ratelimitx/branch/master/graph/badge.svg)](https://codecov.io/gh/hnlq715/ratelimitx)
 
 A simple ratelimit for golang, implemented with memcache and gobreak, aims on high availability.
 

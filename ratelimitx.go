@@ -1,6 +1,7 @@
 package ratelimitx
 
 import (
+	"context"
 	"fmt"
 	"time"
 
@@ -140,7 +141,10 @@ func (l *Limiter) AllowRate(name string, rateLimit rate.Limit) (delay time.Durat
 
 func (l *Limiter) incr(name string, dur time.Duration, n int64) (incr uint64, err error) {
 	// 快速失败，避免因memcache挂掉导致影响业务
-	err = gobreak.Do("memcache incr", func() error {
+	ctx, cancel := context.WithTimeout(context.Background(), 1*time.Second)
+	defer cancel()
+
+	err = gobreak.Do(ctx, "memcache incr", func(context.Context) error {
 		// 先Incr
 		incr, err = l.client.Increment(name, uint64(n))
 		if err == memcache.ErrCacheMiss {
